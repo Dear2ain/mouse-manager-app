@@ -45,7 +45,7 @@ const MouseManager = () => {
 
   const getTotalStatus = () => {
     const total = physicalHealth + mentalHealth + mood;
-    if (total > 300) return { message: '기분째짐', emoji: '🥳' };
+    if (total > 299) return { message: '기분째짐', emoji: '🥳' };
     if (total > 250) return { message: '쪼아', emoji: '😊' };
     if (total > 200) return { message: '삼삼', emoji: '🙂' };
     if (total > 150) return { message: '보통', emoji: '😐' };
