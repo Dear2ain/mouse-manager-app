@@ -1,25 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { db } from './firebase';
 import { ref, onValue, set } from "firebase/database";
+import { setPersistence, browserLocalPersistence } from "firebase/database";
 import './MouseManager.css';
 
 const MouseManager = () => {
-  const [physicalHealth, setPhysicalHealth] = useState(50);
-  const [mentalHealth, setMentalHealth] = useState(50);
-  const [mood, setMood] = useState(50);
+  const [physicalHealth, setPhysicalHealth] = useState(null);
+  const [mentalHealth, setMentalHealth] = useState(null);
+  const [mood, setMood] = useState(null);
   const [wish, setWish] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const statusRef = ref(db, 'mouseStatus');
-    onValue(statusRef, (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        setPhysicalHealth(data.physicalHealth);
-        setMentalHealth(data.mentalHealth);
-        setMood(data.mood);
-        setWish(data.wish);
-      }
-    });
+    setPersistence(db, browserLocalPersistence)
+      .then(() => {
+        const statusRef = ref(db, 'mouseStatus');
+        onValue(statusRef, (snapshot) => {
+          const data = snapshot.val();
+          if (data) {
+            setPhysicalHealth(data.physicalHealth);
+            setMentalHealth(data.mentalHealth);
+            setMood(data.mood);
+            setWish(data.wish);
+          } else {
+            setPhysicalHealth(50);
+            setMentalHealth(50);
+            setMood(50);
+          }
+          setLoading(false);
+        });
+      })
+      .catch((error) => {
+        console.error("Firebase persistence error:", error);
+        setLoading(false);
+      });
   }, []);
 
   const updateDatabase = (newStatus) => {
@@ -54,6 +68,10 @@ const MouseManager = () => {
 
   const { message, emoji } = getTotalStatus();
 
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
+  
   return (
     <div className="mouse-manager">
       <h2>쥐의 상태 {emoji}</h2>
