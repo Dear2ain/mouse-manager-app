@@ -1,0 +1,42 @@
+.mouse-manager {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .status-item {
+    margin-bottom: 15px;
+  }
+  
+  .status-item label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .status-item input {
+    width: 100%;
+  }
+  
+  .status-item span {
+    font-weight: bold;
+    margin-left: 10px;
+  }
+  
+  .total-status {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 20px 0;
+  }
+  
+  .wish-item {
+    margin-top: 20px;
+  }
+  
+  .wish-item input {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
